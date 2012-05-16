@@ -279,7 +279,10 @@ class SlideGener(object):
                 template_str=r'''<li><h%d>{{content}}</h%d></li>'''%(level+2,level+2)
             else:
                 template_str=r'''<p>{{content}}</p>'''
-            return tornado.template.Template(template_str).generate(content=yml)
+            result = tornado.escape.xhtml_escape(yml)
+            result = result.replace('\n','<br />')
+            template_str = '''{% autoescape None %}'''+template_str
+            return tornado.template.Template(template_str).generate(content=result)
         elif type(yml) is dict:
             retv = ""
             for k in yml:
