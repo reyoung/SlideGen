@@ -1,0 +1,7 @@
+*pyc
+*zip
+Result.html
+.settings
+.project
+.pydevproject
+Deskjs/*
