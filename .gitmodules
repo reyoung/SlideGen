@@ -1,0 +1,3 @@
+[submodule "Deskjs"]
+	path = Deskjs
+	url = git@github.com:reyoung/deck.js.git
