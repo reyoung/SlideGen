@@ -1,0 +1,141 @@
+$config:
+  engine: Desk.js
+  author:
+    name: reyoung
+    email: I@reyoung.me
+  title: How To Use SlideGen.py
+
+topic: Introduction to SlideGen.py 
+
+takahashi:
+  desc: 你还在用PPT做幻灯吗？
+  title: HTML5时代
+
+one:
+  title: PPT的缺点
+  content:
+    - 无法在没有PPT的地方播放: 
+      - 有ppt，有pptx，还有pdf。究竟好多少软件才能播放所有幻灯？
+      - 需要下载，打开幻灯缓慢
+    - 在网上分享困难:
+      - 不能直接挂在网站上
+      - 不够技术流
+    - 关注排版而不是内容:
+      - 所想非所得
+      - 工作效率低
+
+takahashi:
+  desc: PowerPoint做幻灯
+  title: 弱爆了
+takahashi:
+  desc: 互联网时代，用
+  title: HTML做幻灯！
+
+list_group:
+  title: However, HTML幻灯需要你
+  content:
+    - 掌握网页前端开发: 神马CSS, Javscript, 神马div， ul, 即使不熟练掌握也需要看懂。
+    - 用纯手写HTML代码: |
+        无限多的重复代码，大量&lt;div>，&lt;section>。这不仅仅是体力损耗，同时也扰乱了你的心情!
+    - 掌握一种幻灯引擎: 神马S5， 神马desk.js， 神马impress.js。坑爹的是每种幻灯引擎语法完全不同！
+
+takahashi:
+  desc: 我们需要的解决方案是
+  title: 简单！粗暴！有效！
+
+list_group:
+  title: SlideGen使用了
+  content: 
+    - YAML文件作为输入: 
+      - 一种人可以看得懂的标记语言
+      - 预制了N种幻灯版式
+    - Markdown作为格式字符串语法:
+      - Markdown是一个应用广泛的格式化文本
+      - 可以直接内嵌html标签
+list_group:
+  title: SlideGen的约定
+  content:
+    - 以$开始的命令为设置命令:
+      - 例如$config可以配置的引擎
+      - $layout可以初始化目录
+      - $css可以添加css到&lt;head>
+    - 其他开始的命令会生成幻灯
+one:
+  title: SlideGen支持的版式有
+  content:
+    - topic:生成主题
+    - layout:生成目录
+    - one:单栏幻灯
+    - list_group:单栏列表幻灯
+    - takahashi:高桥流幻灯
+    - ...未完待续
+
+list_group:
+  title: SlideGen生成目录
+  content:
+    - 目录只需要设置一遍: !!str |
+        <code><pre>$layout:
+        title: |
+          做一个\*目录\*吧
+        content:
+          - 你拍一
+          - 我拍一
+          - 方舟子木有小JJ
+        </pre></code>
+    - 就可以自动生成目录: |
+        <code><pre>layout:
+        select: 0</pre></code>
+    - 当然也可以全亮: |
+        <code><pre>layout:
+        select: all</pre></code>
+
+$layout:
+  title: |
+    做一个*目录*吧
+  content:
+    - 你拍一
+    - 我拍一
+    - 方舟子木有小JJ
+
+layout:
+  select: 0
+
+list_group:
+  title: 还支持<a href="http://zh.wikipedia.org/wiki/%E9%AB%98%E6%A9%8B%E6%B5%81%E7%B0%A1%E5%A0%B1%E6%B3%95">高桥流</a>风格
+  content:
+    - 最简单的代码: |
+        <pre><code>takahashi:
+          desc: 我们需要的解决方案是
+          title: 简单！粗暴！有效！</pre></code>
+    - 支持高桥流链表(将要): |
+        <pre><code>takahashi-list:
+          content:
+            - 需要解决的问题有: 复杂！
+            - 我们需要的解决方案是: 简单！粗暴！有效！
+        </code></pre>
+
+
+list_group:
+  title: 你可以使用SlideGen插入代码
+  content: 
+    - 还记得在PPT中插入代码的错误提示吗？ 
+    - 在SlideGen里可以轻松插入代码: !!str |
+        <pre><code>print 'Hello world'</code></pre>
+    - 只需要设置代码为: |
+        <pre><code>&lt;pre>&lt;code>
+          print 'Hello world'
+        &lt;/code>&lt;/pre>
+        </pre><code>
+
+takahashi:
+  desc: 最好的实践方法：
+  title: 看代码(Introduction.yml)
+
+list_group:
+  title: SlideGen 命令行使用
+  content:
+    - 只输出HTML文件: |
+        <pre><code>python SlideGen.py input.yml > out.html
+        </pre><code>
+    - 输出Zip包: |
+        <pre><code>python SlideGen.py input.yml -z out.zip </code></pre>

@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+<html class="js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths ready" lang="en"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>How To Use SlideGen.py</title>
+    <style type="text/css">
+
+    </style>
+    <meta name="author" content="reyoung I@reyoung.me">
+    <meta name="viewport" content="width=1024, user-scalable=no">
+    
+    <!-- Core and extension CSS files -->
+    <link rel="stylesheet" href="Deskjs//core/deck.core.css">
+    <link rel="stylesheet" href="Deskjs//extensions/goto/deck.goto.css">
+    <link rel="stylesheet" href="Deskjs//extensions/menu/deck.menu.css">
+    <link rel="stylesheet" href="Deskjs//extensions/navigation/deck.navigation.css">
+    <link rel="stylesheet" href="Deskjs//extensions/status/deck.status.css">
+    <link rel="stylesheet" href="Deskjs//extensions/hash/deck.hash.css">
+    <link rel="stylesheet" href="Deskjs//extensions/scale/deck.scale.css">
+    <!-- Style theme. More available in /themes/style/ or create your own. -->
+    <link rel="stylesheet" href="Deskjs//themes/style/web-2.0.css">
+    
+    <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+    <link rel="stylesheet" href="Deskjs//themes/transition/horizontal-slide.css">
+    
+    <script src="Deskjs//modernizr.custom.js"></script>
+</head>
+<body class="deck-container on-slide-0 on-slide-title-slide">
+
+<!-- Begin slides -->
+
+<!-- deck.navigation snippet -->
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+<!-- deck.status snippet -->
+<p class="deck-status">
+    <span class="deck-status-current"></span>
+    <span class="deck-status-total"></span>
+</p>
+
+<!-- deck.goto snippet -->
+<form action="." method="get" class="goto-form">
+    <label for="goto-slide">Go to slide:</label>
+    <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+    <datalist id="goto-datalist"></datalist>
+    <input type="submit" value="Go">
+</form>
+
+<!-- deck.hash snippet -->
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+
+<section class="slide" id="topic">
+<h1><p>Introduction to SlideGen.py</p></h1>
+</section>
+<section class="slide takahashi" >
+<h1><p>HTML5时代</p></h1>
+<h3><p>你还在用PPT做幻灯吗？</p></h3>
+</section><div class="slide one" >
+<h2><p>PPT的缺点</p></h2>
+<ul>
+<li><h3><p>无法在没有PPT的地方播放</p></h3></li><ul>
+<li><h4><p>有ppt，有pptx，还有pdf。究竟好多少软件才能播放所有幻灯？</p></h4></li><li><h4><p>需要下载，打开幻灯缓慢</p></h4></li>
+</ul><li><h3><p>在网上分享困难</p></h3></li><ul>
+<li><h4><p>不能直接挂在网站上</p></h4></li><li><h4><p>不够技术流</p></h4></li>
+</ul><li><h3><p>关注排版而不是内容</p></h3></li><ul>
+<li><h4><p>所想非所得</p></h4></li><li><h4><p>工作效率低</p></h4></li>
+</ul>
+</ul>
+</div>
+<section class="slide takahashi" >
+<h1><p>弱爆了</p></h1>
+<h3><p>PowerPoint做幻灯</p></h3>
+</section>
+<section class="slide takahashi" >
+<h1><p>HTML做幻灯！</p></h1>
+<h3><p>互联网时代，用</p></h3>
+</section><section class="slide list_group" >
+<h2><p>However, HTML幻灯需要你</p></h2>
+
+<ul>
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>掌握网页前端开发</p></h3>
+            <p><p>神马CSS, Javscript, 神马div， ul, 即使不熟练掌握也需要看懂。</p></p>
+            </li>
+            
+        
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>用纯手写HTML代码</p></h3>
+            <p><p>无限多的重复代码，大量&lt;div&gt;，&lt;section&gt;。这不仅仅是体力损耗，同时也扰乱了你的心情!</p></p>
+            </li>
+            
+        
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>掌握一种幻灯引擎</p></h3>
+            <p><p>神马S5， 神马desk.js， 神马impress.js。坑爹的是每种幻灯引擎语法完全不同！</p></p>
+            </li>
+            
+        
+    
+</ul>
+</section>
+<section class="slide takahashi" >
+<h1><p>简单！粗暴！有效！</p></h1>
+<h3><p>我们需要的解决方案是</p></h3>
+</section><section class="slide list_group" >
+<h2><p>SlideGen使用了</p></h2>
+
+<ul>
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>YAML文件作为输入</p></h3>
+            <ul>
+<li><h4><p>一种人可以看得懂的标记语言</p></h4></li><li><h4><p>预制了N种幻灯版式</p></h4></li>
+</ul>
+            </li>
+            
+        
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>Markdown作为格式字符串语法</p></h3>
+            <ul>
+<li><h4><p>Markdown是一个应用广泛的格式化文本</p></h4></li><li><h4><p>可以直接内嵌html标签</p></h4></li>
+</ul>
+            </li>
+            
+        
+    
+</ul>
+</section><section class="slide list_group" >
+<h2><p>SlideGen的约定</p></h2>
+
+<ul>
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>以$开始的命令为设置命令</p></h3>
+            <ul>
+<li><h4><p>例如$config可以配置的引擎</p></h4></li><li><h4><p>$layout可以初始化目录</p></h4></li><li><h4><p>$css可以添加css到&lt;head&gt;</p></h4></li>
+</ul>
+            </li>
+            
+        
+    
+        
+        <li class="slide list_group_item"><h3><p>其他开始的命令会生成幻灯</p></h3></li>
+        
+    
+</ul>
+</section><div class="slide one" >
+<h2><p>SlideGen支持的版式有</p></h2>
+<ul>
+<li><h3><p>topic:生成主题</p></h3></li><li><h3><p>layout:生成目录</p></h3></li><li><h3><p>one:单栏幻灯</p></h3></li><li><h3><p>list_group:单栏列表幻灯</p></h3></li><li><h3><p>takahashi:高桥流幻灯</p></h3></li><li><h3><p>...未完待续</p></h3></li>
+</ul>
+</div><section class="slide list_group" >
+<h2><p>SlideGen生成目录</p></h2>
+
+<ul>
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>目录只需要设置一遍</p></h3>
+            <p><p><code><pre>$layout:
+title: |
+  做一个*目录*吧
+content:
+  - 你拍一
+  - 我拍一
+  - 方舟子木有小JJ
+</pre></code></p></p>
+            </li>
+            
+        
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>就可以自动生成目录</p></h3>
+            <p><p><code><pre>layout:
+select: 0</pre></code></p></p>
+            </li>
+            
+        
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>当然也可以全亮</p></h3>
+            <p><p><code><pre>layout:
+select: all</pre></code></p></p>
+            </li>
+            
+        
+    
+</ul>
+</section>
+<section class="slide" id="layout_0">
+<h2><p>做一个<em>目录</em>吧</p></h2>
+<ul class="layout_item">
+    
+        
+        <li ><h3 class="layout_selected"><p>你拍一</p></h3></li>
+        
+    
+        
+        <li ><h3 class="layout_unselected"><p>我拍一</p></h3></li>
+        
+    
+        
+        <li ><h3 class="layout_unselected"><p>方舟子木有小JJ</p></h3></li>
+        
+    
+</ul>
+</section><section class="slide list_group" >
+<h2><p>还支持<a href="http://zh.wikipedia.org/wiki/%E9%AB%98%E6%A9%8B%E6%B5%81%E7%B0%A1%E5%A0%B1%E6%B3%95">高桥流</a>风格</p></h2>
+
+<ul>
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>最简单的代码</p></h3>
+            <p><pre><code>takahashi:
+  desc: 我们需要的解决方案是
+  title: 简单！粗暴！有效！</pre>
+
+<p></code></p></p>
+            </li>
+            
+        
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>支持高桥流链表(将要)</p></h3>
+            <p><pre><code>takahashi-list:
+  content:
+    - 需要解决的问题有: 复杂！
+    - 我们需要的解决方案是: 简单！粗暴！有效！
+</code></pre></p>
+            </li>
+            
+        
+    
+</ul>
+</section><section class="slide list_group" >
+<h2><p>你可以使用SlideGen插入代码</p></h2>
+
+<ul>
+    
+        
+        <li class="slide list_group_item"><h3><p>还记得在PPT中插入代码的错误提示吗？</p></h3></li>
+        
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>在SlideGen里可以轻松插入代码</p></h3>
+            <p><pre><code>print 'Hello world'</code></pre></p>
+            </li>
+            
+        
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>只需要设置代码为</p></h3>
+            <p><pre><code>&lt;pre>&lt;code>
+  print 'Hello world'
+&lt;/code>&lt;/pre>
+</pre>
+
+<p><code></p></p>
+            </li>
+            
+        
+    
+</ul>
+</section>
+<section class="slide takahashi" >
+<h1><p>看代码(Introduction.yml)</p></h1>
+<h3><p>最好的实践方法：</p></h3>
+</section><section class="slide list_group" >
+<h2><p>SlideGen 命令行使用</p></h2>
+
+<ul>
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>只输出HTML文件</p></h3>
+            <p><pre><code>python SlideGen.py input.yml > out.html
+</pre>
+
+<p><code></p></p>
+            </li>
+            
+        
+    
+        
+            
+            <li class="slide list_group_item"><h3><p>输出Zip包</p></h3>
+            <p><pre><code>python SlideGen.py input.yml -z out.zip </code></pre></p>
+            </li>
+            
+        
+    
+</ul>
+</section>
+
+<!-- Grab CDN jQuery, with a protocol relative URL; fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="Deskjs//jquery-1.7.min.js"><\/script>')</script>
+
+<!-- Deck Core and extensions -->
+<script src="Deskjs//core/deck.core.js"></script>
+<script src="Deskjs//extensions/hash/deck.hash.js"></script>
+<script src="Deskjs//extensions/menu/deck.menu.js"></script>
+<script src="Deskjs//extensions/goto/deck.goto.js"></script>
+<script src="Deskjs//extensions/status/deck.status.js"></script>
+<script src="Deskjs//extensions/navigation/deck.navigation.js"></script>
+<script src="Deskjs//extensions/scale/deck.scale.js"></script>
+<!-- Initialize the deck -->
+<script>
+$(function() {
+    $.deck('.slide');
+    $.deck('enableScale');
+});
+</script>
+</body>
+</html>

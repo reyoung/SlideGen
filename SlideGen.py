@@ -7,7 +7,7 @@ import zipfile
 import StringIO
 import markdown
 
-DEBUG=True
+DEBUG=False
 DEFAULT_CONFIG={
     "GRAMMA_VERSION":1,
     "ENGINE":"Desk.js",
@@ -284,9 +284,9 @@ class SlideGener(object):
         id = "topic"
         content = yml['topic']
         template_str = r'''
-<div class="slide" id="{{id}}">
+<section class="slide" id="{{id}}">
 <h1>{{m(content)}}</h1>
-</div>'''
+</section>'''
         self.__render_and_addto_deskjs(template_str,id=id,content=content)
         
     @LexAnalysis
@@ -299,7 +299,7 @@ class SlideGener(object):
             if 'select' not in data_0:
                 data_0['select']='all'
             template_str=r'''
-<div class="slide" id="layout_{{select}}">
+<section class="slide" id="layout_{{select}}">
 <h2>{{m(title)}}</h2>
 <ul class="layout_item">{% set count = 0 %}
     {% for c in content %}
@@ -310,7 +310,7 @@ class SlideGener(object):
         {% end %}{% set count += 1 %}
     {% end %}
 </ul>
-</div>'''
+</section>'''
             self.__render_and_addto_deskjs(template_str,**data_0)
         except:
             raise RuntimeError("You Need $layout Before")
@@ -319,10 +319,10 @@ class SlideGener(object):
     @WrapID
     def __handle_takahashi_slide_with_deskjs(self,content,yml=None):
         template_str=r'''
-<div class="slide takahashi" {% if id!=None %}id="{{id}}"{% end %}>
+<section class="slide takahashi" {% if id!=None %}id="{{id}}"{% end %}>
 <h1>{{m(title)}}</h1>
 <h3>{{m(desc)}}</h3>
-</div>'''
+</section>'''
         data = yml['takahashi']
         self.__render_and_addto_deskjs(template_str,**data)
 
@@ -425,7 +425,7 @@ if __name__ == '__main__':
         @summary: 开发时的测试函数。将Input.Slide读入，生成SlideShow
         '''
         result = ""
-        with open("Input.yml","r") as f:
+        with open("Introduction.yml","r") as f:
             all = f.read()
             result = SlideGen(all)
             imz = SlideGenZip(all)
@@ -434,8 +434,22 @@ if __name__ == '__main__':
             f.write(result)
 
     def Main():
-        pass
-    
+        from optparse import OptionParser
+        parser = OptionParser()
+        parser.add_option("-z", "--zipfilefile", dest="zipfn",
+                          help="write report to FILE", metavar="FILE")
+        (opts, args) = parser.parse_args()
+        zipfn = opts.zipfn
+        sourcefn = args[0]
+        content = None
+        with open(sourcefn,'r') as f:
+            content = f.read()
+        if zipfn == None:
+            print SlideGen(content)
+        else:
+            imz = SlideGenZip(content)
+            imz.writetofile(zipfn)
+        
     if DEBUG:
         DevTest()
     else:
