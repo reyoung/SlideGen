@@ -3,6 +3,10 @@ import re
 import functools
 import yaml
 import tornado.template
+import zipfile
+import StringIO
+import markdown
+
 DEBUG=True
 DEFAULT_CONFIG={
     "GRAMMA_VERSION":1,
@@ -96,7 +100,60 @@ $(function() {
 </html>'''
 
 
+class InMemoryZip(object):
 
+    def __init__(self):
+        # Create the in-memory file-like object
+        self.in_memory_zip = StringIO.StringIO()
+
+
+    def appendFile(self, file_path, file_name=None):
+        u"从本地磁盘读取文件，并将其添加到压缩文件中"
+
+        if file_name is None:
+            p, fn = os.path.split(file_path)
+        else:
+            fn = file_name
+
+        c = open(file_path, "rb").read()
+        self.append(fn, c)
+
+        return self
+
+
+    def append(self, filename_in_zip, file_contents):
+        """Appends a file with name filename_in_zip and contents of
+                  file_contents to the in-memory zip."""
+
+        # Get a handle to the in-memory zip in append mode
+        zf = zipfile.ZipFile(self.in_memory_zip, "a", zipfile.ZIP_DEFLATED, False)
+
+        # Write the file to the in-memory zip
+        zf.writestr(filename_in_zip, file_contents)
+
+        # Mark the files as having been created on Windows so that
+        # Unix permissions are not inferred as 0000
+        for zfile in zf.filelist:
+            zfile.create_system = 0
+
+        return self
+
+
+    def read(self):
+        """Returns a string with the contents of the in-memory zip."""
+
+        self.in_memory_zip.seek(0)
+
+        return self.in_memory_zip.read()
+
+
+    def writetofile(self, filename):
+        """Writes the in-memory zip to a file."""
+
+        f = file(filename, "wb")
+        f.write(self.read())
+        f.close()
+        
 def LexAnalysis(method):
     @functools.wraps(method)
     def wrapper(*args, **kwds):
@@ -208,11 +265,9 @@ class SlideGener(object):
         content = yml['topic']
         template_str = r'''
 <div class="slide" id="{{id}}">
-<h1>{{content}}</h1>
+<h1>{{m(content)}}</h1>
 </div>'''
-        template = tornado.template.Template(template_str)
-        result = template.generate(id=id,content=content)
-        self.__addDeskjsSlide(result)
+        self.__render_and_addto_deskjs(template_str,id=id,content=content)
         
     @LexAnalysis
     def __handle_layout_slide_with_deskjs(self,content,yml=None):
@@ -225,64 +280,57 @@ class SlideGener(object):
                 data_0['select']='all'
             template_str=r'''
 <div class="slide" id="layout_{{select}}">
-<h2>{{title}}</h2>
+<h2>{{m(title)}}</h2>
 <ul class="layout_item">{% set count = 0 %}
     {% for c in content %}
         {% if select == 'all' or count == int(select) %}
-        <li ><h3 class="layout_selected">{{c}}</h3></li>
+        <li ><h3 class="layout_selected">{{m(c)}}</h3></li>
         {% else %}
-        <li ><h3 class="layout_unselected">{{c}}</h3></li>
+        <li ><h3 class="layout_unselected">{{m(c)}}</h3></li>
         {% end %}{% set count += 1 %}
     {% end %}
 </ul>
 </div>'''
-            template=tornado.template.Template(template_str)
-            self.__addDeskjsSlide(template.generate(**data_0))
+            self.__render_and_addto_deskjs(template_str,**data_0)
         except:
             raise RuntimeError("You Need $layout Before")
-    
     
     @LexAnalysis
     @WrapID
     def __handle_takahashi_slide_with_deskjs(self,content,yml=None):
         template_str=r'''
 <div class="slide takahashi" {% if id!=None %}id="{{id}}"{% end %}>
-<h1>{{title}}</h1>
-<h3>{{desc}}</h3>
+<h1>{{m(title)}}</h1>
+<h3>{{m(desc)}}</h3>
 </div>'''
         data = yml['takahashi']
-        self.__addDeskjsSlide(tornado.template.Template(template_str).generate(**data))
+        self.__render_and_addto_deskjs(template_str,**data)
 
     @LexAnalysis
     @WrapID
     def __handle_one_slide_with_deskjs(self,content,yml=None):
         template_str=r'''<div class="slide one" {% if id!=None %}id="{{id}}"{% end %}>
-<h2>{{title}}</h2>
-{% autoescape None %}
+<h2>{{m(title)}}</h2>
 {{processed_content}}
 </div>'''
         data = yml['one']
-        self.__addDeskjsSlide(tornado.template.Template(template_str).generate(processed_content=self.__render_deskjs_content(data['content']),**data))
+        self.__render_and_addto_deskjs(template_str,processed_content=self.__render_deskjs_content(data['content']),**data)
     def __render_deskjs_content(self,yml,level=0,in_ul=False):
         if type(yml) is list:
             template_str=r'''<ul>
-{% autoescape None %}
 {{processed_content}}
 </ul>'''
             cont = ""
             for item in yml:
                 cont += self.__render_deskjs_content(item, level+1, True)
-            return tornado.template.Template(template_str).generate(processed_content=cont)
+            return SlideGener.__render_markdown(template_str,processed_content=cont)
         elif type(yml) is str or type(yml) is unicode:
             template_str=r''''''
             if in_ul:
-                template_str=r'''<li><h%d>{{content}}</h%d></li>'''%(level+2,level+2)
+                template_str=r'''<li><h%d>{{m(content)}}</h%d></li>'''%(level+2,level+2)
             else:
-                template_str=r'''<p>{{content}}</p>'''
-            result = tornado.escape.xhtml_escape(yml)
-            result = result.replace('\n','<br />')
-            template_str = '''{% autoescape None %}'''+template_str
-            return tornado.template.Template(template_str).generate(content=result)
+                template_str=r'''<p>{{m(content)}}</p>'''
+            return SlideGener.__render_markdown(template_str,content=yml)
         elif type(yml) is dict:
             retv = ""
             for k in yml:
@@ -291,6 +339,15 @@ class SlideGener(object):
             return retv
         else:
             raise RuntimeError(type(yml))
+
+
+    def __render_and_addto_deskjs(self,template_str,**kwds):
+        self.__addDeskjsSlide(SlideGener.__render_markdown(template_str,**kwds))
+
+    @staticmethod
+    def __render_markdown(template_str,**kwds):
+        template = tornado.template.Template("{% autoescape None %}"+template_str)
+        return template.generate(m=markdown.markdown,**kwds)
 
     def __addDeskjsSlide(self,slide_content):
         try:
@@ -309,6 +366,10 @@ def SlideGen(content):
     gener.process()
     return gener.gen_content()
 
+def SlideGenZip(content):
+    imz = InMemoryZip()
+    imz.append("index.html",SlideGen(content))
+    return imz
 if __name__ == '__main__':
     def DevTest():
         '''
@@ -318,10 +379,10 @@ if __name__ == '__main__':
         with open("Input.yml","r") as f:
             all = f.read()
             result = SlideGen(all)
-        
+            imz = SlideGenZip(all)
+            imz.writetofile("out.zip")
         with open("Result.html","w") as f:
             f.write(result)
-            
 
     def Main():
         pass
