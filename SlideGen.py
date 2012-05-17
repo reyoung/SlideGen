@@ -191,7 +191,9 @@ class SlideGener(object):
         self.__gener_handler={
                 "Desk.js":self.__gen_content_deskjs
         }
-        
+        self.__gener_zip_handler={
+                "Desk.js":self.__gen_zip_deskjs
+        }
         self.__custom_css=""
         
     def process(self):
@@ -214,6 +216,9 @@ class SlideGener(object):
     def gen_content(self):
         return self.__gener_handler[self.__settings['ENGINE']]()
     
+    def gen_zip(self):
+        return self.__gener_zip_handler[self.__settings['ENGINE']]()
+    
     def __gen_content_deskjs(self):
         template = tornado.template.Template(DESKJS_TEMPLATE)
         result = template.generate(slide_content=self.__deskjs_contents,
@@ -225,6 +230,24 @@ class SlideGener(object):
                                    custom_css = self.__custom_css
                                    )
         return result
+    
+    def __gen_zip_deskjs(self):
+        file_table = {"index.html":self.__gen_content_deskjs()}
+        engine_path = self.__settings['ENGINE_PATH']
+        import Deskjs
+        engine_files = Deskjs.FILES
+#        with open("Deskjs.json",'r') as f:
+#            import json
+#            engine_files = json.load(f)
+#
+        for k in engine_files:
+            path=engine_path+k
+            file_table[path]=engine_files[k]
+        imz = InMemoryZip()
+        
+        for k in file_table:
+            imz.append(k, file_table[k])
+        return imz
     
     def handleSlideBlock(self, content):
         matcher = re.compile("^(.*):",re.MULTILINE)
@@ -367,9 +390,9 @@ def SlideGen(content):
     return gener.gen_content()
 
 def SlideGenZip(content):
-    imz = InMemoryZip()
-    imz.append("index.html",SlideGen(content))
-    return imz
+    gener = SlideGener(content)
+    gener.process()
+    return gener.gen_zip()
 if __name__ == '__main__':
     def DevTest():
         '''

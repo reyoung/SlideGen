@@ -1,0 +1,66 @@
+$config:
+  engine: Desk.js
+  author:
+    name: reyoung
+    email: I@reyoung.me
+  title: How To Use SlideGen.py
+
+topic: Introduction to SlideGen.py 
+
+
+$layout:
+  title: |
+    *目录*
+  content:
+    - HTML5时代的幻灯
+    - SlideGen.py 能做到什么
+    - SlideGen.py 如何使用
+
+layout:
+  select: 0
+
+takahashi:
+  desc: 你还在用PPT做幻灯吗？
+  title: HTML5时代
+
+one:
+  title: PPT的缺点
+  content:
+    - 无法在没有PPT的地方播放: 
+      - 有ppt，有pptx，还有pdf。究竟好多少软件才能播放所有幻灯？
+      - 需要下载，打开幻灯缓慢
+    - 在网上分享困难:
+      - 不能直接挂在网站上
+      - 不够技术流
+    - 关注排版而不是内容:
+      - 所想非所得
+      - 工作效率低
+
+takahashi:
+  desc: 互联网时代，用
+  title: HTML做幻灯！
+  
+one:
+  title: However, HTML幻灯需要你
+  content:
+    - 掌握网页前端开发: |
+        神马CSS, Javscript, 
+
+        神马div， ul, 
+
+        即使不熟练掌握也需要看懂。
+    - 用纯手写HTML代码: |
+        无限多的重复代码，大量&lt;div>，&lt;section>。这不仅仅是体力损耗，同时也扰乱了你的心情!
+    - 掌握一种幻灯引擎: 神马S5， 神马desk.js， 神马impress.js。坑爹的是每种幻灯引擎语法完全不同！
+
+takahashi:
+  desc: 我们需要的解决方案是
+  title: 简单！粗暴！有效！
+
+  
+layout:
+  select: 1
+  
+layout:
+  select: 2
+  
