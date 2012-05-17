@@ -52,10 +52,17 @@ takahashi:
   desc: 我们需要的解决方案是
   title: 简单！粗暴！有效！
 
+
   
 layout:
   select: 1
-  
+list_group:
+  title: 你可以使用SlideGen插入代码
+  content: 
+    - 还记得在PPT中插入代码的错误提示吗？ 
+    - 在SlideGen里可以轻松插入代码: |
+        <pre><code>print 'Hello world'</code></pre>
+        
 layout:
   select: 2
   
