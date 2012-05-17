@@ -40,15 +40,10 @@ takahashi:
   desc: 互联网时代，用
   title: HTML做幻灯！
   
-one:
+list_group:
   title: However, HTML幻灯需要你
   content:
-    - 掌握网页前端开发: |
-        神马CSS, Javscript, 
-
-        神马div， ul, 
-
-        即使不熟练掌握也需要看懂。
+    - 掌握网页前端开发: 神马CSS, Javscript, 神马div， ul, 即使不熟练掌握也需要看懂。
     - 用纯手写HTML代码: |
         无限多的重复代码，大量&lt;div>，&lt;section>。这不仅仅是体力损耗，同时也扰乱了你的心情!
     - 掌握一种幻灯引擎: 神马S5， 神马desk.js， 神马impress.js。坑爹的是每种幻灯引擎语法完全不同！

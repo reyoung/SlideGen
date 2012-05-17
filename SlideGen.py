@@ -173,7 +173,7 @@ def WrapID(method):
     return wrapper
 
 
-class SlideGener(object):
+class SlideGener(object):    
     def __init__(self,content):
         self.__content = content
         self.__settings=DEFAULT_CONFIG
@@ -186,7 +186,8 @@ class SlideGener(object):
                 "topic": {"Desk.js":self.__handle_topic_slide_with_deskjs},
                 "layout":{"Desk.js":self.__handle_layout_slide_with_deskjs},
                 "takahashi":{"Desk.js":self.__handle_takahashi_slide_with_deskjs},
-                "one":{"Desk.js":self.__handle_one_slide_with_deskjs}
+                "one":{"Desk.js":self.__handle_one_slide_with_deskjs},
+                "list_group":{"Desk.js":self.__handle_list_group_slide_with_deskjs}
         }
         self.__gener_handler={
                 "Desk.js":self.__gen_content_deskjs
@@ -236,10 +237,6 @@ class SlideGener(object):
         engine_path = self.__settings['ENGINE_PATH']
         import Deskjs
         engine_files = Deskjs.FILES
-#        with open("Deskjs.json",'r') as f:
-#            import json
-#            engine_files = json.load(f)
-#
         for k in engine_files:
             path=engine_path+k
             file_table[path]=engine_files[k]
@@ -338,6 +335,35 @@ class SlideGener(object):
 </div>'''
         data = yml['one']
         self.__render_and_addto_deskjs(template_str,processed_content=self.__render_deskjs_content(data['content']),**data)
+    
+    @LexAnalysis
+    @WrapID    
+    def __handle_list_group_slide_with_deskjs(self,content,yml=None):
+        data=yml['list_group']
+        if 'post_title' not in data:
+            data['post_title'] = None
+        
+        template_str=r'''<section class="slide list_group" {% if id!=None %}id="{{id}}"{% end %}>
+<h2>{{m(title)}}</h2>
+{% if post_title != None%}
+{{m(post_title)}}
+{% end %}
+<ul>
+    {% for item in content %}
+        {% if type(item) is str or type(item) is unicode %}
+        <li class="slide list_group_item"><h3>{{m(item)}}</h3></li>
+        {% elif type(item) is dict %}
+            {% for k in item %}
+            <li class="slide list_group_item"><h3>{{m(k)}}</h3>
+            {{custom_render(item[k],1)}}
+            </li>
+            {% end %}
+        {% end %}
+    {% end %}
+</ul>
+</section>'''
+        self.__render_and_addto_deskjs(template_str,custom_render=self.__render_deskjs_content,**data)
+    
     def __render_deskjs_content(self,yml,level=0,in_ul=False):
         if type(yml) is list:
             template_str=r'''<ul>
