@@ -1,6 +1,7 @@
 import os
 import sys
 import cssmin
+import jsmin
 
 
 if __name__ == '__main__':
@@ -22,7 +23,7 @@ if __name__ == '__main__':
         elif k[-4:len(k)] =='.css':           # Minify css file
             print "r'''%s''':r'''%s''',"%(k,cssmin.cssmin(map[k]))
         elif k[-3:len(k)] == '.js':
-            print "r'''%s''':r'''%s''',"%(k,map[k])
+            print "r'''%s''':r'''%s''',"%(k,jsmin.jsmin(map[k]))
         else:
             pass
     print "}"
