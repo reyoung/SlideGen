@@ -8,7 +8,7 @@ import zipfile
 import StringIO
 import markdown
 
-DEBUG=True
+DEBUG=False
 DEFAULT_CONFIG={
     "GRAMMA_VERSION":1,
     "ENGINE":"Desk.js",
@@ -177,14 +177,14 @@ def WrapID(method):
 
 
 class SlideGener(object):    
-
     def __init__(self,content):
         self.__content = content
         self.__settings=DEFAULT_CONFIG
         self.__setting_handler={
                 "config":self.__handle_config_settings,
                 "layout":self.__handle_layout_settings,
-                "css":self.__handle_css_settings
+                "css":self.__handle_css_settings,
+                "newcommand":self.__handle_new_command_settings
         }
         self.__slide_handler={
                 "topic": {"Desk.js":self.__handle_topic_slide_with_deskjs},
@@ -202,6 +202,7 @@ class SlideGener(object):
                 "Desk.js":self.__gen_zip_deskjs
         }
         self.__custom_css=""
+        self.__custom_command={}
         
     def process(self):
         matcher = re.compile("^[A-Za-z$].*:",re.MULTILINE)
@@ -284,7 +285,12 @@ class SlideGener(object):
     @LexAnalysis
     def __handle_css_settings(self,content,yml=None):
         self.__custom_css = yml["$css"]
-
+    
+    @LexAnalysis
+    def __handle_new_command_settings(self,content,yml=None):
+        cmd = yml['$newcommand']
+        self.__custom_command[cmd['name'] ]=cmd['command']
+        
     @LexAnalysis
     def __handle_topic_slide_with_deskjs(self,content,yml=None):
         id = "topic"
@@ -414,10 +420,20 @@ class SlideGener(object):
             return SlideGener.__render_markdown(template_str,content=yml)
         elif type(yml) is dict:
             retv = ""
+#            print yml
             for k in yml:
-                retv += self.__render_deskjs_content(k,level,in_ul)+\
+                if k[0:2] !='$$':
+                    retv += self.__render_deskjs_content(k,level,in_ul)+\
                         self.__render_deskjs_content(yml[k],level)
+                elif k == '$$':
+                    retv += self.__render_deskjs_content(yml[k],level)
+                else:
+                    cmd = self.__custom_command[k[2:] ]
+                    exec cmd
+                    retv = render(yml[k])
+                    retv = "<div class=%s>"%k[2:]+retv+"</div>"
             return retv
+        
         else:
             raise RuntimeError(type(yml))
 
@@ -463,21 +479,28 @@ if __name__ == '__main__':
             f.write(result)
 
     def Main():
+        import sys
+        reload(sys)
+        sys.setdefaultencoding('utf-8')
         from optparse import OptionParser
         parser = OptionParser()
         parser.add_option("-z", "--zipfilefile", dest="zipfn",
                           help="write report to FILE", metavar="FILE")
         (opts, args) = parser.parse_args()
-        zipfn = opts.zipfn
-        sourcefn = args[0]
-        content = None
-        with open(sourcefn,'r') as f:
-            content = f.read()
-        if zipfn == None:
-            print SlideGen(content)
+        if len(args) == 1: # Nothing Error
+            zipfn = opts.zipfn
+            sourcefn = args[0]
+            content = None
+            with open(sourcefn,'r') as f:
+                content = f.read()
+            if zipfn == None:
+                print SlideGen(content)
+            else:
+                imz = SlideGenZip(content)
+                imz.writetofile(zipfn)
         else:
-            imz = SlideGenZip(content)
-            imz.writetofile(zipfn)
+            #@todo:  prompt
+            raise RuntimeError("Undone")
         
     if DEBUG:
         DevTest()

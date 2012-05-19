@@ -6,6 +6,38 @@ $config:
   title: How To Use SlideGen.py
   theme: web-2.0
 
+$css: |
+    .radar_chart {
+      width:24%;
+      height:30%;
+      right: 10px;
+      top:10px;
+      position:fixed;
+    }
+
+$newcommand:
+  name: radar_chart
+  command: |
+      def render(data):
+        import pygal
+        from pygal.style import Style
+        LightStyle = Style(
+          background='rgba(255, 255, 255, 0)',
+          plot_background='rgba(0, 0, 255, 0.1)',
+          foreground='rgba(0, 0, 0, 0.7)',
+          foreground_light='rgba(0, 0, 0, 0.9)',
+          foreground_dark='rgba(0, 0, 0, 0.5)',
+          colors=('#F00', '#9f6767', '#92ac68',
+                  '#d0d293', '#9aacc3', '#bb77a4',
+                  '#77bbb5', '#777777'))
+        chart = pygal.Radar(style=LightStyle)
+        chart.x_labels=[u"易用性",u"命令行",u'专注度',u'效率',u'炫']
+        value = data['value']
+        chart.add(data['title'], value)
+        svg = chart.render(True)        
+        svg = "<svg>"+svg+"</svg>"
+        return svg
+
 topic: Introduction to SlideGen.py 
 
 takahashi:
@@ -104,7 +136,7 @@ layout:
   select: 0
 
 list_group:
-  title: 还支持[高桥流](http://zh.wikipedia.org/wiki/%E9%AB%98%E6%A9%8B%E6%B5%81%E7%B0%A1%E5%A0%B1%E6%B3%95")风格
+  title: 还支持[高桥流](http://zh.wikipedia.org/wiki/%E9%AB%98%E6%A9%8B%E6%B5%81%E7%B0%A1%E5%A0%B1%E6%B3%95)风格
   content:
     - 最简单的代码: |
         <pre><code>takahashi:
@@ -132,6 +164,16 @@ list_group:
 takahashi-list:
   - 最好的实践方法: 看代码(Introduction.yml)
 
+
+one:
+  title: 测试SlideGen 自定义命令
+  content:
+    $$radar_chart: 
+      title: 你猜
+      value: [1,2,3,4,5]
+    $$: 
+      - 测试SlideGen绘制雷达图
+      - 还凑合吧
 
 list_group:
   title: SlideGen 命令行使用

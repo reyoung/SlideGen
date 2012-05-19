@@ -6,6 +6,13 @@
     
     <title>How To Use SlideGen.py</title>
     <style type="text/css">
+.radar_chart {
+  width:24%;
+  height:30%;
+  right: 10px;
+  top:10px;
+  position:fixed;
+}
 
     </style>
     <meta name="author" content="reyoung I@reyoung.me">
@@ -59,7 +66,7 @@
 <section class="slide takahashi" >
 <h1><p>HTML5时代</p></h1>
 <h3><p>你还在用PPT做幻灯吗？</p></h3>
-</section><div class="slide one" >
+</section><section class="slide one" >
 <h2><p>PPT的缺点</p></h2>
 <ul>
 <li><h3><p>无法在没有PPT的地方播放</p></h3></li><ul>
@@ -70,7 +77,7 @@
 <li><h4><p>所想非所得</p></h4></li><li><h4><p>工作效率低</p></h4></li>
 </ul>
 </ul>
-</div>
+</section>
 <section class="slide takahashi" >
 <h1><p>弱爆了</p></h1>
 <h3><p>PowerPoint做幻灯</p></h3>
@@ -158,12 +165,12 @@
         
     
 </ul>
-</section><div class="slide one" >
+</section><section class="slide one" >
 <h2><p>SlideGen支持的版式有</p></h2>
 <ul>
-<li><h3><p>topic:生成主题</p></h3></li><li><h3><p>layout:生成目录</p></h3></li><li><h3><p>one:单栏幻灯</p></h3></li><li><h3><p>list_group:单栏列表幻灯</p></h3></li><li><h3><p>takahashi:高桥流幻灯</p></h3></li><li><h3><p>...未完待续</p></h3></li>
+<li><h3><p>topic:生成主题</p></h3></li><li><h3><p>layout:生成目录</p></h3></li><li><h3><p>one:单栏幻灯</p></h3></li><li><h3><p>two:双栏幻灯</p></h3></li><li><h3><p>list_group:单栏列表幻灯</p></h3></li><li><h3><p>takahashi:高桥流幻灯</p></h3></li><li><h3><p>takahashi-list:高桥流幻灯列表</p></h3></li><li><h3><p>...未完待续</p></h3></li>
 </ul>
-</div><section class="slide list_group" >
+</section><section class="slide list_group" >
 <h2><p>SlideGen生成目录</p></h2>
 
 <ul>
@@ -239,9 +246,8 @@ select: all</pre></code></p></p>
     
         
             
-            <li class="slide list_group_item"><h3><p>支持高桥流链表(将要)</p></h3>
+            <li class="slide list_group_item"><h3><p>支持高桥流链表</p></h3>
             <p><pre><code>takahashi-list:
-  content:
     - 需要解决的问题有: 复杂！
     - 我们需要的解决方案是: 简单！粗暴！有效！
 </code></pre></p>
@@ -272,10 +278,7 @@ select: all</pre></code></p></p>
             <li class="slide list_group_item"><h3><p>只需要设置代码为</p></h3>
             <p><pre><code>&lt;pre>&lt;code>
   print 'Hello world'
-&lt;/code>&lt;/pre>
-</pre>
-
-<p><code></p></p>
+&lt;/code>&lt;/pre></code></pre></p>
             </li>
             
         
@@ -284,7 +287,13 @@ select: all</pre></code></p></p>
 </section>
 <section class="slide takahashi" >
 <h1><p>看代码(Introduction.yml)</p></h1>
-<h3><p>最好的实践方法：</p></h3>
+<h3><p>最好的实践方法</p></h3>
+</section><section class="slide one" >
+<h2><p>测试SlideGen 自定义命令</p></h2>
+<div class=radar_chart><svg><?xml version='1.0' encoding='utf-8'?>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><!--Generated with pygal 0.10.2 ©Kozea 2012--><!--http://github.com/Kozea/pygal--><defs><style type="text/css">.title{font-family:sans;font-size:16px}.legends .legend text{font-family:monospace;font-size:14px}.axis text{font-family:monospace;font-size:10px}.series text{font-family:monospace;font-size:8px}#tooltip text{font-family:monospace;font-size:20px}</style><style type="text/css">svg{background-color:rgba(255,255,255,0)}svg *{-webkit-transition:250ms;-moz-transition:250ms;transition:250ms}.graph &gt; .background{fill:rgba(255,255,255,0)}.plot &gt; .background{fill:rgba(0,0,255,0.1)}.graph{fill:rgba(0,0,0,0.7)}text.no_data{fill:rgba(0,0,0,0.9)}.title{fill:rgba(0,0,0,0.9)}.legends .legend text{fill:rgba(0,0,0,0.7)}.legends .legend:hover text{fill:rgba(0,0,0,0.9)}.axis .line{stroke:rgba(0,0,0,0.9)}.axis .guide.line{stroke:rgba(0,0,0,0.5)}.axis .major.line{stroke:rgba(0,0,0,0.7)}.axis text.major{stroke:rgba(0,0,0,0.9);fill:rgba(0,0,0,0.9)}.axis.y .guides:hover .guide.line,.line-graph .axis.x .guides:hover .guide.line,.stackedline-graph .axis.x .guides:hover .guide.line,.xy-graph .axis.x .guides:hover .guide.line{stroke:rgba(0,0,0,0.9)}.axis .guides:hover text{fill:rgba(0,0,0,0.9)}.reactive{fill-opacity:.8}.reactive.active,.active .reactive{fill-opacity:.9}.series text{fill:rgba(0,0,0,0.9)}#tooltip rect{fill:rgba(0,0,255,0.1);stroke:rgba(0,0,0,0.9)}#tooltip text{fill:rgba(0,0,0,0.9)}.color-0{stroke:#F00;fill:#F00}.color-1{stroke:#9f6767;fill:#9f6767}.color-2{stroke:#92ac68;fill:#92ac68}.color-3{stroke:#d0d293;fill:#d0d293}.color-4{stroke:#9aacc3;fill:#9aacc3}.color-5{stroke:#bb77a4;fill:#bb77a4}.color-6{stroke:#77bbb5;fill:#77bbb5}.color-7{stroke:#777777;fill:#777777}.color-8{stroke:#F00;fill:#F00}.color-9{stroke:#9f6767;fill:#9f6767}.color-10{stroke:#92ac68;fill:#92ac68}.color-11{stroke:#d0d293;fill:#d0d293}.color-12{stroke:#9aacc3;fill:#9aacc3}.color-13{stroke:#bb77a4;fill:#bb77a4}.color-14{stroke:#77bbb5;fill:#77bbb5}.color-15{stroke:#777777;fill:#777777}</style><style type="text/css">text.no_data{text-anchor:middle}.guide.line{fill-opacity:0}.centered{text-anchor:middle}.title{text-anchor:middle}.legends .legend text{fill-opacity:1}.axis.x text{text-anchor:middle}.axis.x:not(.web) text[transform]{text-anchor:start}.axis.y text{text-anchor:end}.axis.y .logarithmic text:not(.major){font-size:50%}.axis .guide.line{stroke-dasharray:4,4}.axis .major.line{stroke-dasharray:6,6}.axis text.major{stroke-width:0.5px}.horizontal .axis.y .guide.line,.vertical .axis.x .guide.line{opacity:0}.axis.y .guides:hover .guide.line,.line-graph .axis.x .guides:hover .guide.line,.gauge-graph .axis.x .guides:hover .guide.line,.stackedline-graph .axis.x .guides:hover .guide.line,.xy-graph .axis.x .guides:hover .guide.line{opacity:1}.axis .guides:hover text{opacity:1}.nofill{fill:none}.dot{stroke-width:1px;fill-opacity:1}.dot.active{stroke-width:5px}.series text{stroke:none}.series text.active{opacity:1}#tooltip rect{fill-opacity:0.8}#tooltip text{fill-opacity:1}#tooltip text tspan.label{fill-opacity:.8}a:visited{fill:none}</style><script type="text/javascript">window.config = {"truncate_legend": null, "print_values": true, "tooltip_font_size": 20, "height": 600, "legend_at_bottom": false, "show_legend": true, "show_dots": true, "explicit_size": false, "legend_font_size": 14, "fill": false, "style": {"opacity": ".8", "foreground": "rgba(0, 0, 0, 0.7)", "plot_background": "rgba(0, 0, 255, 0.1)", "_colors": ["#F00", "#9f6767", "#92ac68", "#d0d293", "#9aacc3", "#bb77a4", "#77bbb5", "#777777"], "foreground_light": "rgba(0, 0, 0, 0.9)", "transition": "250ms", "foreground_dark": "rgba(0, 0, 0, 0.5)", "colors": ".color-0 {\n  stroke: #F00;\n  fill: #F00;\n}\n\n.color-1 {\n  stroke: #9f6767;\n  fill: #9f6767;\n}\n\n.color-2 {\n  stroke: #92ac68;\n  fill: #92ac68;\n}\n\n.color-3 {\n  stroke: #d0d293;\n  fill: #d0d293;\n}\n\n.color-4 {\n  stroke: #9aacc3;\n  fill: #9aacc3;\n}\n\n.color-5 {\n  stroke: #bb77a4;\n  fill: #bb77a4;\n}\n\n.color-6 {\n  stroke: #77bbb5;\n  fill: #77bbb5;\n}\n\n.color-7 {\n  stroke: #777777;\n  fill: #777777;\n}\n\n.color-8 {\n  stroke: #F00;\n  fill: #F00;\n}\n\n.color-9 {\n  stroke: #9f6767;\n  fill: #9f6767;\n}\n\n.color-10 {\n  stroke: #92ac68;\n  fill: #92ac68;\n}\n\n.color-11 {\n  stroke: #d0d293;\n  fill: #d0d293;\n}\n\n.color-12 {\n  stroke: #9aacc3;\n  fill: #9aacc3;\n}\n\n.color-13 {\n  stroke: #bb77a4;\n  fill: #bb77a4;\n}\n\n.color-14 {\n  stroke: #77bbb5;\n  fill: #77bbb5;\n}\n\n.color-15 {\n  stroke: #777777;\n  fill: #777777;\n}\n", "background": "rgba(255, 255, 255, 0)", "opacity_hover": ".9"}, "zero": 0, "title": null, "rounded_bars": false, "label_font_size": 10, "width": 800, "x_label_rotation": 0, "x_labels": null, "value_font_size": 8, "disable_xml_declaration": false, "css": ["style.css", "graph.css"], "human_readable": false, "y_label_rotation": 0, "pretty_print": false, "animation_steps": 0, "interpolate": null, "js": ["https://raw.github.com/Kozea/pygal.js/master/svg.jquery.js", "https://raw.github.com/Kozea/pygal.js/master/pygal-tooltips.js"], "y_labels": null, "interpolation_precision": 250, "logarithmic": false, "print_zeroes": false, "no_data_text": "No data", "legend_box_size": 12, "stroke": true, "include_x_axis": false, "range": null, "truncate_label": null, "title_font_size": 16}</script><script xlink:href="https://raw.github.com/Kozea/pygal.js/master/svg.jquery.js" type="text/javascript"/><script xlink:href="https://raw.github.com/Kozea/pygal.js/master/pygal-tooltips.js" type="text/javascript"/></defs><g class="graph radar-graph vertical"><rect width="800" height="600" y="0" x="0" class="background"/><g transform="translate(48, 20)" class="plot"><rect width="693.2" height="540" y="0" x="0" class="background"/><g class="axis x web"><g class="guides"><path d="M346.600000 270.000000 L346.600000 20.000000" class="line"/><text y="5.4" x="346.6" transform="rotate(0.000000 346.600000 5.400000)">易用性</text></g><g class="guides"><path d="M346.600000 270.000000 L41.381307 192.745751" class="line"/><text y="188.234103288" x="23.5565352231" transform="rotate(-72.000000 23.556535 188.234103)">命令行</text></g><g class="guides"><path d="M346.600000 270.000000 L157.964474 472.254249" class="line"/><text y="484.065896712" x="146.948158924" transform="rotate(-324.000000 146.948159 484.065897)">专注度</text></g><g class="guides"><path d="M346.600000 270.000000 L535.235526 472.254249" class="line"/><text y="484.065896712" x="546.251841076" transform="rotate(-396.000000 546.251841 484.065897)">效率</text></g><g class="guides"><path d="M346.600000 270.000000 L651.818693 192.745751" class="line"/><text y="188.234103288" x="669.643464777" transform="rotate(-288.000000 669.643465 188.234103)">炫</text></g></g><g class="axis y web"><g class="guides"><path d="M346.600000 20.000000 L41.381307 192.745751 157.964474 472.254249 535.235526 472.254249 651.818693 192.745751 346.600000 20.000000 Z" class="guide line"/><text y="20.0" x="341.6">5.0</text></g><g class="guides"><path d="M346.600000 70.000000 L102.425046 208.196601 195.691579 431.803399 497.508421 431.803399 590.774954 208.196601 346.600000 70.000000 Z" class="guide line"/><text y="70.0" x="341.6">4.0</text></g><g class="guides"><path d="M346.600000 120.000000 L163.468784 223.647451 233.418684 391.352549 459.781316 391.352549 529.731216 223.647451 346.600000 120.000000 Z" class="guide line"/><text y="120.0" x="341.6">3.0</text></g><g class="guides"><path d="M346.600000 170.000000 L224.512523 239.098301 271.145789 350.901699 422.054211 350.901699 468.687477 239.098301 346.600000 170.000000 Z" class="guide line"/><text y="170.0" x="341.6">2.0</text></g><g class="guides"><path d="M346.600000 220.000000 L285.556261 254.549150 308.872895 310.450850 384.327105 310.450850 407.643739 254.549150 346.600000 220.000000 Z" class="guide line"/><text y="220.0" x="341.6">1.0</text></g><g class="guides"><path d="M346.600000 270.000000 L346.600000 270.000000 346.600000 270.000000 346.600000 270.000000 346.600000 270.000000 346.600000 270.000000 Z" class="guide line"/><text y="270.0" x="341.6">0.0</text></g></g><g class="series serie-0 color-0"><path d="M346.600000 220.000000 L224.512523 239.098301 233.418684 391.352549 497.508421 431.803399 651.818693 192.745751 Z" class="line reactive nofill"/></g></g><g transform="translate(48, 20)" class="plot overlay"><g class="series serie-0 color-0"><g class="dots"><circle cy="220.0" cx="346.6" r="2.5" class="dot reactive tooltip-trigger"/><desc class="value">1</desc><desc class="x ">346.6</desc><desc class="y ">220.0</desc></g><g class="dots"><circle cy="239.098300563" cx="224.51252276" r="2.5" class="dot reactive tooltip-trigger"/><desc class="value">2</desc><desc class="x ">224.51252276</desc><desc class="y ">239.098300563</desc></g><g class="dots"><circle cy="391.352549156" cx="233.418684197" r="2.5" class="dot reactive tooltip-trigger"/><desc class="value">3</desc><desc class="x top">233.418684197</desc><desc class="y top">391.352549156</desc></g><g class="dots"><circle cy="431.803398875" cx="497.50842107" r="2.5" class="dot reactive tooltip-trigger"/><desc class="value">4</desc><desc class="x left top">497.50842107</desc><desc class="y left top">431.803398875</desc></g><g class="dots"><circle cy="192.745751406" cx="651.8186931" r="2.5" class="dot reactive tooltip-trigger"/><desc class="value">5</desc><desc class="x left">651.8186931</desc><desc class="y left">192.745751406</desc></g></g></g><g transform="translate(48, 20)" class="plot text-overlay"><g class="series serie-0 color-0"><text y="230.666666667" class="centered" x="354.6">1</text><text y="249.764967229" class="centered" x="232.51252276">2</text><text y="402.019215823" class="centered" x="241.418684197">3</text><text y="442.470065542" class="centered" x="505.50842107">4</text><text y="203.412418073" class="centered" x="659.8186931">5</text></g></g><g transform="translate(48, 20)" class="plot tooltip-overlay"><g id="tooltip" transform="translate(0 0)"><a><rect rx="5" id="tooltip-box" ry="5"/><text class="text"><tspan class="label"/><tspan class="value"/></text></a></g></g><g transform="translate(751, 30)" class="legends"><g id="activate-serie-0" class="legend reactive activate-serie"><rect height="12" width="12" y="1.0" x="0.0" class="color-0 reactive"/><text y="11.2" x="17.0">你猜</text></g></g></g></svg></svg></div><ul>
+<li><h3><p>测试SlideGen绘制雷达图</p></h3></li><li><h3><p>还凑合吧</p></h3></li>
+</ul>
 </section><section class="slide list_group" >
 <h2><p>SlideGen 命令行使用</p></h2>
 
