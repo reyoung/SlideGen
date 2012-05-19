@@ -4,3 +4,5 @@ Result.html
 .settings
 .project
 .pydevproject
+
+*.py~

@@ -4,6 +4,7 @@ $config:
     name: reyoung
     email: I@reyoung.me
   title: How To Use SlideGen.py
+  theme: web-2.0
 
 topic: Introduction to SlideGen.py 
 
@@ -124,8 +125,7 @@ list_group:
     - 只需要设置代码为: |
         <pre><code>&lt;pre>&lt;code>
           print 'Hello world'
-        &lt;/code>&lt;/pre>
-        </pre><code>
+        &lt;/code>&lt;/pre></code></pre>
 
 takahashi:
   desc: 最好的实践方法：

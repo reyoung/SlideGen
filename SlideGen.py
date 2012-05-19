@@ -1,5 +1,6 @@
 #*-* coding=utf-8
 import re
+import os
 import functools
 import yaml
 import tornado.template
@@ -7,7 +8,7 @@ import zipfile
 import StringIO
 import markdown
 
-DEBUG=False
+DEBUG=True
 DEFAULT_CONFIG={
     "GRAMMA_VERSION":1,
     "ENGINE":"Desk.js",
@@ -101,7 +102,6 @@ $(function() {
 
 
 class InMemoryZip(object):
-
     def __init__(self):
         # Create the in-memory file-like object
         self.in_memory_zip = StringIO.StringIO()
@@ -187,7 +187,8 @@ class SlideGener(object):
                 "layout":{"Desk.js":self.__handle_layout_slide_with_deskjs},
                 "takahashi":{"Desk.js":self.__handle_takahashi_slide_with_deskjs},
                 "one":{"Desk.js":self.__handle_one_slide_with_deskjs},
-                "list_group":{"Desk.js":self.__handle_list_group_slide_with_deskjs}
+                "list_group":{"Desk.js":self.__handle_list_group_slide_with_deskjs},
+                "two":{"Desk.js":self.__handle_two_slide_with_deskjs}
         }
         self.__gener_handler={
                 "Desk.js":self.__gen_content_deskjs
@@ -230,7 +231,7 @@ class SlideGener(object):
                                    theme=self.__settings['THEME'],
                                    custom_css = self.__custom_css
                                    )
-        return result
+	return result
     
     def __gen_zip_deskjs(self):
         file_table = {"index.html":self.__gen_content_deskjs()}
@@ -329,13 +330,30 @@ class SlideGener(object):
     @LexAnalysis
     @WrapID
     def __handle_one_slide_with_deskjs(self,content,yml=None):
-        template_str=r'''<div class="slide one" {% if id!=None %}id="{{id}}"{% end %}>
+        template_str=r'''<section class="slide one" {% if id!=None %}id="{{id}}"{% end %}>
 <h2>{{m(title)}}</h2>
 {{processed_content}}
-</div>'''
+</section>'''
         data = yml['one']
         self.__render_and_addto_deskjs(template_str,processed_content=self.__render_deskjs_content(data['content']),**data)
-    
+    @LexAnalysis
+    @WrapID
+    def __handle_two_slide_with_deskjs(self,content,yml=None):
+        data = yml['two']
+        template_str=r'''<section class="slide two" {% if id!=None %}id="{{id}}"{% end %}>
+<h2>{{m(title)}}</h2>
+<div class="left_content">
+{{left}}
+</div>
+<div class="right_content">
+{{right}}
+</div>
+</section>
+'''
+        self.__render_and_addto_deskjs(template_str,title=data['title'],id=data['id'],
+                                       left=self.__render_deskjs_content(data['left']),
+                                       right=self.__render_deskjs_content(data['right']))
+
     @LexAnalysis
     @WrapID    
     def __handle_list_group_slide_with_deskjs(self,content,yml=None):
@@ -421,9 +439,6 @@ def SlideGenZip(content):
     return gener.gen_zip()
 if __name__ == '__main__':
     def DevTest():
-        '''
-        @summary: 开发时的测试函数。将Input.Slide读入，生成SlideShow
-        '''
         result = ""
         with open("Introduction.yml","r") as f:
             all = f.read()
