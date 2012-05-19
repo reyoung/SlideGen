@@ -67,8 +67,10 @@ one:
     - topic:生成主题
     - layout:生成目录
     - one:单栏幻灯
+    - two:双栏幻灯
     - list_group:单栏列表幻灯
     - takahashi:高桥流幻灯
+    - takahashi-list:高桥流幻灯列表
     - ...未完待续
 
 list_group:
@@ -102,15 +104,14 @@ layout:
   select: 0
 
 list_group:
-  title: 还支持<a href="http://zh.wikipedia.org/wiki/%E9%AB%98%E6%A9%8B%E6%B5%81%E7%B0%A1%E5%A0%B1%E6%B3%95">高桥流</a>风格
+  title: 还支持[高桥流](http://zh.wikipedia.org/wiki/%E9%AB%98%E6%A9%8B%E6%B5%81%E7%B0%A1%E5%A0%B1%E6%B3%95")风格
   content:
     - 最简单的代码: |
         <pre><code>takahashi:
           desc: 我们需要的解决方案是
           title: 简单！粗暴！有效！</pre></code>
-    - 支持高桥流链表(将要): |
+    - 支持高桥流链表: |
         <pre><code>takahashi-list:
-          content:
             - 需要解决的问题有: 复杂！
             - 我们需要的解决方案是: 简单！粗暴！有效！
         </code></pre>
@@ -127,9 +128,10 @@ list_group:
           print 'Hello world'
         &lt;/code>&lt;/pre></code></pre>
 
-takahashi:
-  desc: 最好的实践方法：
-  title: 看代码(Introduction.yml)
+
+takahashi-list:
+  - 最好的实践方法: 看代码(Introduction.yml)
+
 
 list_group:
   title: SlideGen 命令行使用

@@ -8,7 +8,7 @@ import zipfile
 import StringIO
 import markdown
 
-DEBUG=False
+DEBUG=True
 DEFAULT_CONFIG={
     "GRAMMA_VERSION":1,
     "ENGINE":"Desk.js",
@@ -158,8 +158,11 @@ def LexAnalysis(method):
     @functools.wraps(method)
     def wrapper(*args, **kwds):
         content = args[1]
-        yml = yaml.safe_load(content)
-        return method(*args,yml=yml,**kwds)
+        if content !=None:
+            yml = yaml.safe_load(content)
+            return method(*args,yml=yml,**kwds)
+        else:
+            return method(*args,**kwds)
     return wrapper
 
 def WrapID(method):
@@ -174,6 +177,7 @@ def WrapID(method):
 
 
 class SlideGener(object):    
+
     def __init__(self,content):
         self.__content = content
         self.__settings=DEFAULT_CONFIG
@@ -188,7 +192,8 @@ class SlideGener(object):
                 "takahashi":{"Desk.js":self.__handle_takahashi_slide_with_deskjs},
                 "one":{"Desk.js":self.__handle_one_slide_with_deskjs},
                 "list_group":{"Desk.js":self.__handle_list_group_slide_with_deskjs},
-                "two":{"Desk.js":self.__handle_two_slide_with_deskjs}
+                "two":{"Desk.js":self.__handle_two_slide_with_deskjs},
+                "takahashi-list":{"Desk.js":self.__handle_takahashi_list_with_deskjs}
         }
         self.__gener_handler={
                 "Desk.js":self.__gen_content_deskjs
@@ -327,6 +332,15 @@ class SlideGener(object):
         data = yml['takahashi']
         self.__render_and_addto_deskjs(template_str,**data)
 
+    @LexAnalysis
+    def __handle_takahashi_list_with_deskjs(self,content,yml=None):
+        for takahashi in yml['takahashi-list']:
+            k = takahashi.keys()[0]
+            v = takahashi[k]
+            map={'takahashi':{'title':v,'desc':k}}
+            self.__handle_takahashi_slide_with_deskjs(None, yml =map)
+    
+    
     @LexAnalysis
     @WrapID
     def __handle_one_slide_with_deskjs(self,content,yml=None):
