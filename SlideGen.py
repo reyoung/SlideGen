@@ -8,7 +8,7 @@ import zipfile
 import StringIO
 import markdown
 
-DEBUG=True
+DEBUG=False
 DEFAULT_CONFIG={
     "GRAMMA_VERSION":1,
     "ENGINE":"Desk.js",
