@@ -6,15 +6,15 @@ SlideGen ÊÇÒ»¸öÊ¹ÓÃYMLºÍmarkdownÉú³Éhtml5»ÃµÆµÄ¹¤¾ß£¬Ô¤ÖÆÁË¶àÖÖ°æÊ½£¬Ô¤¼ÆÖ§³Ö¶àÖ
 ## Ä¿Ç°×´Ì¬
 * °æ±¾ pre-V0.0.0.1
 * Ö§³ÖµÄÒıÇæ
-** desk.js
+	* desk.js
 * Ö§³ÖµÄ°æÊ½
-** topic
-** layout
-** one
-** two
-** takahashi
-** takahashi-group
-** list_group
+	* topic
+	* layout
+	* one
+	* two
+	* takahashi
+	* takahashi-group
+	* list_group
 
 ## RoadMap
 ### @todo
