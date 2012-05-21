@@ -119,10 +119,10 @@ list_group:
         </pre></code>
     - 就可以自动生成目录: |
         <code><pre>layout:
-        select: 0</pre></code>
+          select: 0</pre></code>
     - 当然也可以全亮: |
         <code><pre>layout:
-        select: all</pre></code>
+          select: all</pre></code>
 
 $layout:
   title: |

@@ -461,6 +461,7 @@ def SlideGen(content):
     '''
     gener = SlideGener(content)
     gener.process()
+    #print 'AFTER process'
     return gener.gen_content()
 
 def SlideGenZip(content):
@@ -500,7 +501,13 @@ if __name__ == '__main__':
                 imz.writetofile(zipfn)
         else:
             #@todo:  prompt
-            raise RuntimeError("Undone")
+            print r'''Example:
+  SlideGen.py input.yml > output.html
+  SlideGen.py input.yml -z output.zip
+Options:
+  -z [zipfile]: this will make a zip archieve by input.yml
+  normally will print result html to stdout
+'''
         
     if DEBUG:
         DevTest()
