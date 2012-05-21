@@ -11,5 +11,7 @@ setup(
         'console_scripts':[
             'SlideGen=slidegen.SlideGen:Main'
         ]
-      }
+      },
+      keywords ='html5 slide generator',
+      url='https://github.com/reyoung/SlideGen'
 )
