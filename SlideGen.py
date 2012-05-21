@@ -8,8 +8,8 @@ import zipfile
 import StringIO
 import markdown
 
-DEBUG=False
-DEFAULT_CONFIG={
+DEBUG=False     # For Developer Only, If Debug, SlideGen Will Read Introduction.yml and print result to result.html
+DEFAULT_CONFIG={    # The Default Config. Config for SlideGen Engine, Author, Site Title, etc.
     "GRAMMA_VERSION":1,
     "ENGINE":"Desk.js",
     "THEME":"web-2.0",
@@ -21,7 +21,8 @@ DEFAULT_CONFIG={
     "TITLE":"Default Title"
 }
 
-
+# Desk.js Slide skeleton.
+# @todo:  Move it to a reasonalbe place.
 DESKJS_TEMPLATE=r'''{% autoescape None %}
 <!DOCTYPE html>
 <html class="js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths ready" lang="en"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -102,10 +103,12 @@ $(function() {
 
 
 class InMemoryZip(object):
+    '''
+    @summary: 在内存中生成Zip包
+    '''
     def __init__(self):
         # Create the in-memory file-like object
         self.in_memory_zip = StringIO.StringIO()
-
 
     def appendFile(self, file_path, file_name=None):
         u"从本地磁盘读取文件，并将其添加到压缩文件中"
@@ -155,6 +158,10 @@ class InMemoryZip(object):
         f.close()
         
 def LexAnalysis(method):
+    '''
+    @summary: 对输入文件进行词法分析，将输入的yml解析，并输出到参数yml中，传递给method
+    @param method: 需要wrap的方法
+    '''
     @functools.wraps(method)
     def wrapper(*args, **kwds):
         content = args[1]
@@ -166,6 +173,10 @@ def LexAnalysis(method):
     return wrapper
 
 def WrapID(method):
+    '''
+    @summary: 对词法分析后的yml，给出默认ID为None
+    @param method:
+    '''
     @functools.wraps(method)
     def wrapper(*args, **kwds):
         data = kwds['yml'].values()[0]
@@ -177,7 +188,13 @@ def WrapID(method):
 
 
 class SlideGener(object):    
+    '''
+    @summary: 幻灯生成器，主要对外的方法是process和gen，构造的时候需要传入yml字符串
+    '''
     def __init__(self,content):
+        '''
+        @param content: 传入需要解析的yml字符串
+        '''
         self.__content = content
         self.__settings=DEFAULT_CONFIG
         self.__setting_handler={
@@ -205,6 +222,9 @@ class SlideGener(object):
         self.__custom_command={}
         
     def process(self):
+        '''
+        @summary: 解析类内部的yml字符串
+        '''
         matcher = re.compile("^[A-Za-z$].*:",re.MULTILINE)
         it = matcher.finditer(self.__content)
         pre_result = None
@@ -222,12 +242,21 @@ class SlideGener(object):
             self.handleBlock(begin, end)
         
     def gen_content(self):
+        '''
+        @summary: 输出生成的幻灯片html文件
+        '''
         return self.__gener_handler[self.__settings['ENGINE']]()
     
     def gen_zip(self):
+        '''
+        @summary: 输出生成幻灯片html文件和幻灯引擎依赖的文件的打包，格式为InMemoryZip
+        '''
         return self.__gener_zip_handler[self.__settings['ENGINE']]()
     
     def __gen_content_deskjs(self):
+        '''
+        @summary: 输出deskjs的content，gen_content当引擎为desk.js时实际调用的输出函数
+        '''
         template = tornado.template.Template(DESKJS_TEMPLATE)
         result = template.generate(slide_content=self.__deskjs_contents,
                                    title = self.__settings['TITLE'],
@@ -240,6 +269,9 @@ class SlideGener(object):
 	return result
     
     def __gen_zip_deskjs(self):
+        '''
+        @summary: 输出deskjs的InMemoryZip，gen_zip的实际调用函数
+        '''
         file_table = {"index.html":self.__gen_content_deskjs()}
         engine_path = self.__settings['ENGINE_PATH']
         import Deskjs
@@ -254,6 +286,10 @@ class SlideGener(object):
         return imz
     
     def handleSlideBlock(self, content):
+        '''
+        @summary: 扫描yml文档时，当产生slide段时，调用的函数。slide段是不以$开始的段，这个段会实际产生幻灯
+        @param content: slide段的字符串
+        '''
         matcher = re.compile("^(.*):",re.MULTILINE)
         result = matcher.match(content)
         command=result.group(1)
@@ -261,12 +297,21 @@ class SlideGener(object):
         self.__slide_handler[command][engine](content)
     
     def handleSettingBlock(self, content):
+        '''
+        @summary: 扫描yml文档时，产生setting段时，调用的函数。setting段是以$开始的段，这个段会对生成进行配置
+        @param content: settings段的字符串
+        '''
         matcher = re.compile("^\$(.*):",re.MULTILINE)
         result = matcher.match(content)
         command=result.group(1)
         self.__setting_handler[command](content)
     
     def handleBlock(self,begin,end):
+        '''
+        @summary: 扫秒yml文档，处理每一个段
+        @param begin:段在content中开始位置
+        @param end:段在content结束位置
+        '''
         if self.__content[begin]=="$":
             self.handleSettingBlock(self.__content[begin:end])
         else:
@@ -274,25 +319,43 @@ class SlideGener(object):
             
     @LexAnalysis
     def __handle_config_settings(self,content,yml=None):
+        '''
+        @summary: 处理$config设置段
+        @param content: 字符串
+        @param yml: 解析后的yml
+        '''
         for k in yml['$config']:
             upper_k = k.upper()
             if upper_k in self.__settings:
                 self.__settings[upper_k] = yml['$config'][k]
+    
     @LexAnalysis
     def __handle_layout_settings(self,content,yml=None):
+        '''
+        @summary: 处理$layout段，$layout可以一次设置目录内容。之后使用layout生成多个目录
+        '''
         self.__layout_settings = yml['$layout']
     
     @LexAnalysis
     def __handle_css_settings(self,content,yml=None):
+        '''
+        @summary: 处理$css段，这段中，可以自定义css
+        '''
         self.__custom_css = yml["$css"]
     
     @LexAnalysis
     def __handle_new_command_settings(self,content,yml=None):
+        '''
+        @summary: 处理$newcommand段，这段中，可以自定义标签中content的版式
+        '''
         cmd = yml['$newcommand']
         self.__custom_command[cmd['name'] ]=cmd['command']
         
     @LexAnalysis
     def __handle_topic_slide_with_deskjs(self,content,yml=None):
+        '''
+        @summary: 生成deskjs的topic幻灯。topic幻灯是单一标题幻灯
+        '''
         id = "topic"
         content = yml['topic']
         template_str = r'''
@@ -303,6 +366,9 @@ class SlideGener(object):
         
     @LexAnalysis
     def __handle_layout_slide_with_deskjs(self,content,yml=None):
+        '''
+        @summary: 生成deskjs目录幻灯layout，目录幻灯需要预先使用$layout设置
+        '''
         try:
             data_0 = self.__layout_settings
             data_1 = yml['layout']
@@ -330,6 +396,9 @@ class SlideGener(object):
     @LexAnalysis
     @WrapID
     def __handle_takahashi_slide_with_deskjs(self,content,yml=None):
+        '''
+        @summary: 生成desk.js高桥流takahashi的版式
+        '''
         template_str=r'''
 <section class="slide takahashi" {% if id!=None %}id="{{id}}"{% end %}>
 <h1>{{m(title)}}</h1>
@@ -340,6 +409,9 @@ class SlideGener(object):
 
     @LexAnalysis
     def __handle_takahashi_list_with_deskjs(self,content,yml=None):
+        '''
+        @summary: 生成desk.js高桥流列表takahashi-list的版式。只是一个对takahashi的简略写法
+        '''
         for takahashi in yml['takahashi-list']:
             k = takahashi.keys()[0]
             v = takahashi[k]
@@ -350,15 +422,22 @@ class SlideGener(object):
     @LexAnalysis
     @WrapID
     def __handle_one_slide_with_deskjs(self,content,yml=None):
+        '''
+        @summary: 生成desk.js单栏幻灯版式
+        '''
         template_str=r'''<section class="slide one" {% if id!=None %}id="{{id}}"{% end %}>
 <h2>{{m(title)}}</h2>
 {{processed_content}}
 </section>'''
         data = yml['one']
         self.__render_and_addto_deskjs(template_str,processed_content=self.__render_deskjs_content(data['content']),**data)
+    
     @LexAnalysis
     @WrapID
     def __handle_two_slide_with_deskjs(self,content,yml=None):
+        '''
+        @summary: 生成desk.js双栏幻灯版式
+        '''
         data = yml['two']
         template_str=r'''<section class="slide two" {% if id!=None %}id="{{id}}"{% end %}>
 <h2>{{m(title)}}</h2>
@@ -377,6 +456,9 @@ class SlideGener(object):
     @LexAnalysis
     @WrapID    
     def __handle_list_group_slide_with_deskjs(self,content,yml=None):
+        '''
+        @summary: 生成Desk.js单列表幻灯，动画效果显示每一个内容
+        '''
         data=yml['list_group']
         if 'post_title' not in data:
             data['post_title'] = None
@@ -403,6 +485,9 @@ class SlideGener(object):
         self.__render_and_addto_deskjs(template_str,custom_render=self.__render_deskjs_content,**data)
     
     def __render_deskjs_content(self,yml,level=0,in_ul=False):
+        '''
+        @summary: 生成desk.js中所有的content版式
+        '''
         if type(yml) is list:
             template_str=r'''<ul>
 {{processed_content}}
@@ -439,14 +524,24 @@ class SlideGener(object):
 
 
     def __render_and_addto_deskjs(self,template_str,**kwds):
+        '''
+        @summary: 渲染模板引擎，并添加到幻灯的最后一页
+        @param template_str:模板
+        '''
         self.__addDeskjsSlide(SlideGener.__render_markdown(template_str,**kwds))
 
     @staticmethod
     def __render_markdown(template_str,**kwds):
+        '''
+        @summary: 渲染markdown为m函数的模板，默认不进行转码
+        '''
         template = tornado.template.Template("{% autoescape None %}"+template_str)
         return template.generate(m=markdown.markdown,**kwds)
 
     def __addDeskjsSlide(self,slide_content):
+        '''
+        @summary: 添加幻灯到幻灯的结尾
+        '''
         try:
             self.__deskjs_inited
         except:
@@ -465,6 +560,10 @@ def SlideGen(content):
     return gener.gen_content()
 
 def SlideGenZip(content):
+    '''
+    @summary: 从一个str类型，生成幻灯zip。
+    @param content:(str) 输入
+    '''
     gener = SlideGener(content)
     gener.process()
     return gener.gen_zip()
