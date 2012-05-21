@@ -1,6 +1,0 @@
-c:\python27\lib\site-packages\SlideGen-0.0.0.1.pre-py2.7.egg
-C:\Python27\Scripts\SlideGen-script.py
-C:\Python27\Scripts\SlideGen.exe
-C:\Python27\Scripts\SlideGen.exe.manifest
-C:\Python27\Scripts\markdown_py.bat
-C:\Python27\Scripts\markdown_py
