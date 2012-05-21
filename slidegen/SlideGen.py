@@ -8,6 +8,9 @@ import zipfile
 import StringIO
 import markdown
 
+VERSION='0.0.0.1 pre'
+
+
 DEBUG=False     # For Developer Only, If Debug, SlideGen Will Read Introduction.yml and print result to result.html
 DEFAULT_CONFIG={    # The Default Config. Config for SlideGen Engine, Author, Site Title, etc.
     "GRAMMA_VERSION":1,
@@ -567,47 +570,49 @@ def SlideGenZip(content):
     gener = SlideGener(content)
     gener.process()
     return gener.gen_zip()
-if __name__ == '__main__':
-    def DevTest():
-        result = ""
-        with open("Introduction.yml","r") as f:
-            all = f.read()
-            result = SlideGen(all)
-            imz = SlideGenZip(all)
-            imz.writetofile("out.zip")
-        with open("Result.html","w") as f:
-            f.write(result)
 
-    def Main():
-        import sys
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
-        from optparse import OptionParser
-        parser = OptionParser()
-        parser.add_option("-z", "--zipfilefile", dest="zipfn",
-                          help="write report to FILE", metavar="FILE")
-        (opts, args) = parser.parse_args()
-        if len(args) == 1: # Nothing Error
-            zipfn = opts.zipfn
-            sourcefn = args[0]
-            content = None
-            with open(sourcefn,'r') as f:
-                content = f.read()
-            if zipfn == None:
-                print SlideGen(content)
-            else:
-                imz = SlideGenZip(content)
-                imz.writetofile(zipfn)
+def Main():
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option("-z", "--zipfilefile", dest="zipfn",
+                      help="write report to FILE", metavar="FILE")
+    (opts, args) = parser.parse_args()
+    if len(args) == 1: # Nothing Error
+        zipfn = opts.zipfn
+        sourcefn = args[0]
+        content = None
+        with open(sourcefn,'r') as f:
+            content = f.read()
+        if zipfn == None:
+            print SlideGen(content)
         else:
-            #@todo:  prompt
-            print r'''Example:
-  SlideGen.py input.yml > output.html
-  SlideGen.py input.yml -z output.zip
+            imz = SlideGenZip(content)
+            imz.writetofile(zipfn)
+    else:
+        #@todo:  prompt
+        print r'''SlideGen Tools Version %s
+Example:
+  SlideGen input.yml > output.html
+  SlideGen input.yml -z output.zip
 Options:
   -z [zipfile]: this will make a zip archieve by input.yml
   normally will print result html to stdout
-'''
+IF you have any comment, please send it to I@reyoung.me
+'''%VERSION
         
+if __name__ == '__main__':
+    def DevTest():
+        result = ""
+        with open("../Introduction.yml","r") as f:
+            all = f.read()
+            result = SlideGen(all)
+            imz = SlideGenZip(all)
+            imz.writetofile("../out.zip")
+        with open("../Result.html","w") as f:
+            f.write(result)        
     if DEBUG:
         DevTest()
     else:

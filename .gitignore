@@ -6,3 +6,6 @@ Result.html
 .pydevproject
 
 *.py~
+*build
+*dist
+*egg-info
