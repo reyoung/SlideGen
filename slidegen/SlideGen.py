@@ -193,7 +193,10 @@ def WrapID(method):
 class SlideGener(object):    
     '''
     @summary: 幻灯生成器，主要对外的方法是process和gen，构造的时候需要传入yml字符串
-    '''
+    '''    
+
+    
+    
     def __init__(self,content):
         '''
         @param content: 传入需要解析的yml字符串
@@ -213,7 +216,9 @@ class SlideGener(object):
                 "one":{"Desk.js":self.__handle_one_slide_with_deskjs},
                 "list_group":{"Desk.js":self.__handle_list_group_slide_with_deskjs},
                 "two":{"Desk.js":self.__handle_two_slide_with_deskjs},
-                "takahashi-list":{"Desk.js":self.__handle_takahashi_list_with_deskjs}
+                "takahashi-list":{"Desk.js":self.__handle_takahashi_list_with_deskjs},
+                'html':{'Desk.js':self.__handle_html_slide_with_deskjs},
+                'md':{'Desk.js':self.__handle_md_slide_with_deskjs}
         }
         self.__gener_handler={
                 "Desk.js":self.__gen_content_deskjs
@@ -413,7 +418,14 @@ class SlideGener(object):
 </section>'''
         data = yml['takahashi']
         self.__render_and_addto_deskjs(template_str,**data)
-
+    
+    @LexAnalysis
+    def __handle_html_slide_with_deskjs(self,content,yml=None):
+        '''
+        @summary: 添加了只使用html进行编写的幻灯版式
+        '''
+        self.__addDeskjsSlide(yml['html'])
+        
     @LexAnalysis
     def __handle_takahashi_list_with_deskjs(self,content,yml=None):
         '''
@@ -425,6 +437,17 @@ class SlideGener(object):
             map={'takahashi':{'title':v,'desc':k}}
             self.__handle_takahashi_slide_with_deskjs(None, yml =map)
     
+    @LexAnalysis
+    @WrapID
+    def __handle_md_slide_with_deskjs(self,content,yml=None):
+        '''
+        @summary: 添加只使用markdown编写的幻灯版式
+        '''
+        template_str=r'''
+<section class="slide md" {% if id!=None %}id="{{id}}"{% end %}>
+{{m(content)}}
+</section>'''
+        self.__render_and_addto_deskjs(template_str,**yml['md'])
     
     @LexAnalysis
     @WrapID

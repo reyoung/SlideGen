@@ -160,10 +160,8 @@ list_group:
           print 'Hello world'
         &lt;/code>&lt;/pre></code></pre>
 
-
 takahashi-list:
   - 最好的实践方法: 看代码(Introduction.yml)
-
 
 one:
   title: 测试SlideGen 自定义命令
