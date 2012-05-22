@@ -10,6 +10,7 @@ setup(
       author_email='reyoung@126.com',
       license='LGPL',
       install_requires=["PyYAML>=3.10","Markdown>=2.1.1","tornado>=2.2"],
+      description="A HTML5 Slide Generator in python",
       entry_points ={
         'console_scripts':[
             'SlideGen=slidegen.SlideGen:Main'

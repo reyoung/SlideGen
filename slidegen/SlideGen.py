@@ -11,7 +11,7 @@ import markdown
 VERSION='0.0.0.1 pre'
 
 
-DEBUG=False     # For Developer Only, If Debug, SlideGen Will Read Introduction.yml and print result to result.html
+DEBUG=True     # For Developer Only, If Debug, SlideGen Will Read Introduction.yml and print result to result.html
 DEFAULT_CONFIG={    # The Default Config. Config for SlideGen Engine, Author, Site Title, etc.
     "GRAMMA_VERSION":1,
     "ENGINE":"Desk.js",
@@ -260,6 +260,10 @@ class SlideGener(object):
         '''
         @summary: 输出deskjs的content，gen_content当引擎为desk.js时实际调用的输出函数
         '''
+        try:
+            self.__deskjs_contents
+        except:
+            raise RuntimeError("Your Yaml Must Contain At least One Page!")
         template = tornado.template.Template(DESKJS_TEMPLATE)
         result = template.generate(slide_content=self.__deskjs_contents,
                                    title = self.__settings['TITLE'],
@@ -269,7 +273,7 @@ class SlideGener(object):
                                    theme=self.__settings['THEME'],
                                    custom_css = self.__custom_css
                                    )
-	return result
+        return result
     
     def __gen_zip_deskjs(self):
         '''
