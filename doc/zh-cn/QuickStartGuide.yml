@@ -1,0 +1,93 @@
+$config:
+  author:
+    name: reyoung
+    email: I@reyoung.me
+  title: SlideGen QuickStart Guide
+  engine_path: ../../Deskjs
+
+topic: SlideGen QuickStart Guide
+
+$layout:
+  title: | 
+      *目录*
+  content: 
+    - 如何安装:
+      id: InstallMain
+    - Hello World:
+      id: HelloWorldMain
+    - 哪里能够找到更多帮助文档？:
+      id: WhereMain
+    - 联系作者:
+      id: ContactMain
+
+layout:
+  select: all
+
+list_group:
+  title: 如何安装
+  id: InstallMain
+  content:
+    - 首先，你需要安装python:
+      - Python 2不错。开发者用的是python 2.7
+      - 目前我不想支持python 3
+    - 支持的安装方法:
+      - 只使用python
+      - 使用python和Git
+      - 使用python的easy_install
+
+list_group:
+  title: 如果你只安装过python，你需要
+  content: 
+    - 确保你的电脑可以正确联网
+    - 从[这里](https://github.com/reyoung/SlideGen/downloads)下载源码包
+    - 将源码包解压到一个文件夹，例如叫做'SlideGen'
+    - cd进入'SlideGen'目录，输入命令<pre><code>python setup.py install</pre></code>
+
+list_group:
+  title: 使用Git和Python安装
+  content:
+    - 和使用网页下载源码包一样，你可以使用git下载源码包。这会让你持续的关注SlideGen的更新，有了新的功能可以第一时间试用。
+    - Clone版本库: |
+        <pre><code>git clone https://reyoung@github.com/reyoung/SlideGen.git SlideGen</code></pre>
+    - 安装: |
+        <pre><code>cd SlideGen; python setup.py install</code></pre>
+
+list_group:
+  title: 使用python的easy_install安装
+  content:
+    - SlideGen也添加到了官方pypi源中。你可以使用setuptools,即easy_install管理SlideGen包
+    - 安装SlideGen: |
+        <pre><code>easy_install SlideGen</code></pre>
+    - 升级SlideGen: |
+        <pre><code>easy_install -U SlideGen</code></pre>
+
+list_group:
+  title: 如何'Hello world'
+  id: HelloWorldMain
+  content:
+    - 首先确定SlideGen可执行文件在你的PATH中(windows需要单独设置，在Python安装目录下的Scripts目录)
+    - 新建一个HelloWorld.yml文件，内容如下: |
+        <pre><code>topic: Hello World</code></pre>
+    - 在相同目录下输入命令:
+        <pre><code>SlideGen HelloWorld.yml -z HelloWorld.zip</code></pre>
+    - 解压缩HelloWorld.zip，打开Index.html，你会得到类似于下一页的幻灯
+
+topic: Hello World
+
+list_group:
+  title: 从哪里获得更多的帮助信息？
+  id: WhereMain
+  content: 
+    - 在源码包中，doc和example目录下，有很多示例。
+    - 更多的文档正在书写，请查阅[pypi官方源](http://packages.python.org/SlideGen/)
+
+one:
+  title: 如何联系作者
+  id: ContactMain
+  content: 
+    - 如果你有任何想加入的功能，Bug，问题，想法，你都可以:
+      - 发邮件至I@reyoung.me
+      - 提交issue到[这里](https://github.com/reyoung/SlideGen/issues)
+      - 中英文均可
+    - 如果你对我感兴趣(不限于这个项目):
+      - 你可以订阅我的[博客](http://www.reyoung.me)
