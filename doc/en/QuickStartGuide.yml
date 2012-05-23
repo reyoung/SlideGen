@@ -1,0 +1,91 @@
+$config:
+  author:
+    name: reyoung
+    email: I@reyoung.me
+  title: SlideGen QuickStart Guide
+
+topic: SlideGen QuickStart Guide
+
+$layout:
+  title: layout
+  content: 
+    - How to Install:
+      id: InstallMain
+    - Hello World:
+      id: HelloWorldMain
+    - Where Find More Help?:
+      id: WhereMain
+    - Contact SlideGen Author:
+      id: ContactMain
+
+layout:
+  select: all
+
+list_group:
+  title: How to Install
+  id: InstallMain
+  content:
+    - First of all, You need a python:
+      - Python 2 will be ok. Developer use python 2.7
+      - Currently, I don't want to support python 3
+    - Support Install Way:
+      - Use python
+      - Use Git and python
+      - Use python easy_install
+
+list_group:
+  title: If You only has python, you need
+  content: 
+    - Ensure your computer can connect to internet well.
+    - Download the source package from [here](https://github.com/reyoung/SlideGen/downloads)
+    - Extract all files in package and save it to a folder like 'SlideGen'
+    - cd into the 'SlideGen' directory, and type <pre><code>python setup.py install</pre></code>
+
+list_group:
+  title: Use Git and Python
+  content:
+    - Like downloading the package from internet, you can download all source by Git. This will make you keep track with SlideGen updates.
+    - Clone the repository: |
+        <pre><code>git clone https://reyoung@github.com/reyoung/SlideGen.git SlideGen</code></pre>
+    - Install: |
+        <pre><code>cd SlideGen; python setup.py install</code></pre>
+
+list_group:
+  title: Use python easy_install
+  content:
+    - The SlideGen has been added to Pypi repository. So you can use setuptools to manage SlideGen Package.
+    - To Install SlideGen Just Type: |
+        <pre><code>easy_install SlideGen</code></pre>
+    - To Update SlideGen: |
+        <pre><code>easy_install -U SlideGen</code></pre>
+
+list_group:
+  title: How to 'Hello world'
+  id: HelloWorldMain
+  content:
+    - Make Sure the SlideGen executable in your PATH
+    - Find a place, and create a file named as 'HelloWorld.yml'. The content of it as: |
+        <pre><code>topic: Hello World</code></pre>
+    - Type a command in the same directory:
+        <pre><code>SlideGen HelloWorld.yml -z HelloWorld.zip</code></pre>
+    - Uncompress the HelloWorld.zip, and open the index.html. You will create a slide look like
+
+topic: Hello World
+
+list_group:
+  title: Where Find More Help?
+  id: WhereMain
+  content: 
+    - In source package, the 'doc' and 'example' directory contains many examples.
+    - More help is under writting currently. Please find them on Pypi repository.
+
+one:
+  title: Contact SlideGen Author
+  id: ContactMain
+  content: 
+    - If you has any issue, question, bug report, and any other thing want to tell me:
+      - Please send e-mail to I@reyoung.me
+      - Or submit your issue to [here](https://github.com/reyoung/SlideGen/issues)
+      - Both Chinese and English will be okay. And sorry for my poor English. ;)
+    - If you has interesting with me:
+      - You can subscribe my [blog](http://www.reyoung.me)
