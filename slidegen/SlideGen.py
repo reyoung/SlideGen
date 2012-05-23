@@ -11,7 +11,7 @@ import markdown
 VERSION='0.0.0.1 pre'
 
 
-DEBUG=True     # For Developer Only, If Debug, SlideGen Will Read Introduction.yml and print result to result.html
+DEBUG=False     # For Developer Only, If Debug, SlideGen Will Read Introduction.yml and print result to result.html
 DEFAULT_CONFIG={    # The Default Config. Config for SlideGen Engine, Author, Site Title, etc.
     "GRAMMA_VERSION":1,
     "ENGINE":"Desk.js",
@@ -245,9 +245,12 @@ class SlideGener(object):
                     self.handleBlock(begin, end)
                 pre_result = result
         except:
-            begin=pre_result.start()
-            end=len(self.__content)
-            self.handleBlock(begin, end)
+            if pre_result == None:
+                raise RuntimeError('The Input yaml must not be empty!')
+            else:
+                begin=pre_result.start()
+                end=len(self.__content)
+                self.handleBlock(begin, end)
         
     def gen_content(self):
         '''
@@ -394,9 +397,35 @@ class SlideGener(object):
 <ul class="layout_item">{% set count = 0 %}
     {% for c in content %}
         {% if select == 'all' or count == int(select) %}
-        <li ><h3 class="layout_selected">{{m(c)}}</h3></li>
+        <li ><h3 class="layout_selected">
+        {% if type(c) == dict %}
+        {% set temp_id = c['id'] %}
+        <a href="#{{temp_id}}">
+        {% for k in c %}
+        {% if c[k]==None %}
+        {{k}}
+        {% end %}
+        {% end %}
+        </a>
         {% else %}
-        <li ><h3 class="layout_unselected">{{m(c)}}</h3></li>
+        {{c}}
+        {% end %}
+        </h3></li>
+        {% else %}
+        <li ><h3 class="layout_unselected">
+        {% if type(c) == dict %}
+        {% set temp_id = c['id'] %}
+        <a href="#{{temp_id}}">
+        {% for k in c %}
+        {% if c[k]==None %}
+        {{k}}
+        {% end %}
+        {% end %}
+        </a>
+        {% else %}
+        {{c}}
+        {% end %}
+        </h3></li>
         {% end %}{% set count += 1 %}
     {% end %}
 </ul>
