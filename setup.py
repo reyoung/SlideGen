@@ -4,7 +4,7 @@ use_setuptools()
 from setuptools import setup
 setup(
       name='SlideGen',
-      version='0.0.0.1 pre',
+      version='0.0.0.1 pre2',
       packages=['slidegen'],
       author='reyoung',
       author_email='reyoung@126.com',

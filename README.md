@@ -1,7 +1,7 @@
 SlideGen 是一个使用YML和markdown生成html5幻灯的工具，预制了多种版式，预计支持多种幻灯引擎(desk.js,S5,Impress.js)，提供一次编码，可生成多种引擎，多种主题的幻灯。避免你学习多个幻灯引擎的时间精力消耗。
 
 
-介绍网址: http://slidegen.reyoung.me
+文档地址: [这里](http://packages.python.org/SlideGen/)
 安装方法:
 * git clone 这个版本库，然后python setup.py install
 * 或者。 easy_install SlideGen

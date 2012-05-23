@@ -8,7 +8,7 @@ import zipfile
 import StringIO
 import markdown
 
-VERSION='0.0.0.1 pre'
+VERSION='0.0.0.1 pre2'
 
 
 DEBUG=False     # For Developer Only, If Debug, SlideGen Will Read Introduction.yml and print result to result.html
