@@ -1,0 +1,118 @@
+$config:
+  author:
+    name: reyoung
+    email: I@reyoung.me
+  title: Introduction of YAML and Markdown
+  engine_path: ../../Deskjs
+
+topic: Introduction of YAML & Markdown
+
+$layout:
+  title: layout
+  content: 
+    - YAML Introduction: 
+      id: YAML_FIRST
+    - Markdown Introduction
+    - Reference:
+      id: Reference
+layout: 
+  select: all
+
+list_group:
+  title: What's YAML
+  id: YAML_FIRST
+  content:
+    - YAML is short of "YAML Ain't a Markup Language"
+    - SlideGen uses YAML as input. You can write a YAML file, and SlideGen compile it to *HTML Slides*.
+    - It just like XML or json to serialize object to text file.:
+      - However, YAML is more data-oriented
+      - YAML is more Readable.
+      - Its line and whitespace delimiters have certen meaning like Python.
+    - As the Zen of Python Says::
+      - Beautiful is better than ugly.
+      - Readability counts.
+
+list_group:
+  title: Simple Example
+  id: Simple_YAML_Example
+  content:
+    - Here will show a YAML document. This document is actually used by SlideGen as Input. Use this block of YAML document, SlideGen can generate previous slide.
+    - Codes: |
+        <pre><code>list_group:
+          title: What's YAML
+          id: YAML_FIRST
+          content:
+            - YAML is short of "YAML Ain't a Markup Language"
+            - It just like XML or json to serialize object to text file.:
+              - However, YAML is more data-oriented
+              - YAML is more Readable.
+              - Its line and whitespace delimiters have certen meaning like Python.
+            - As the Zen of Python Says::
+              - Beautiful is better than ugly.
+              - Readability counts.</code></pre>
+    - |
+        **Notice!** In YAML, it's better to use space not tab to make indent.
+list_group:
+  title: Basic components of YAML
+  id: Basic_components_of_YAML
+  content:
+    - Lists:
+      - The list uses a hyphen+space to begin a new item in list.
+      - |
+          <pre><code>- apple
+          - banana
+          - peach</code></pre>
+    - Associative arrays:
+      - Keys are separated from values by a colon+space.
+      - Like:: |
+          <pre><code>name: John Smith
+          age: 33</code></pre>
+      - It means <pre><code>{name:John Smith, age:33}</code></code>
+list_group:
+  title: Basic components of YAML(continue)
+  id: Basic_components_of_YAML_Cont
+  content:
+    - String: 
+      - String literal need not quote by ""
+      - |
+          There are many reserve word for YAML in String literal like *, >, |, etc. You can use | or > in YAML to write raw string.
+      - |
+          Sample Code:
+          <pre><code>raw_string: | # or you can use > here. it is comments here
+              \*My Email\* is I@reyoung.me</code></pre>
+      - |
+          When you use '>', it will ignore the new line. Double new line(\n) are converted to one new line. The '|' is what you write is what it is.
+    - Comments:
+      - |
+          Comments begin with the number sign (#), can start anywhere on a line, and continue until the end of the line.  
+one:
+  title: YAML combinations
+  content: |
+      Notice that the lists and associative arrays can contains other element as children.
+
+      Such as:
+      <pre><code>men: 
+        - John Smith
+        - Bill Jones:
+          email: bill_jones@somesite.com
+          description: |
+            an sample description for Bill Jones.
+      women:
+        - Mary Smith
+        - Susan Williams</code></pre>
+
+      Also, YAML contains a powerful feature. It just like pointer in C.
+      
+      <pre><code>data01: &id01
+        content: "Some Simple Data"
+      data08: *id01 # Refer to data01
+      </code></pre>
+
+one:
+  title: Reference
+  id: Reference
+  content: 
+    - |
+       [YAML in Wikipedia](http://en.wikipedia.org/wiki/YAML)
+    - |
+       [YAML in Wikipedia Chinese](http://zh.wikipedia.org/zh-cn/YAML)

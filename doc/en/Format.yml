@@ -1,0 +1,8 @@
+$config:
+  author:
+    name: reyoung
+    email: I@reyoung.me
+  title: SlideGen Format Manual
+  engine_path: ../../Deskjs
+
+topic: SlideGen Format Manual
